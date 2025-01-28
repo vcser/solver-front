@@ -8,7 +8,11 @@ export default function CoordinatesForm() {
     }
 
     return (
-        <form action={handleSubmit} name="coordinates-form">
+        <form name="coordinates-form" onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            handleSubmit(formData);
+        }}>
             <CoordinatesContainer />
             <button type="submit" data-testid="submit">Submit</button>
         </form>
