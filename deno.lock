@@ -2526,7 +2526,6 @@
         "npm:globals@^15.14.0",
         "npm:happy-dom@^16.7.3",
         "npm:leaflet@^1.9.4",
-        "npm:postcss@^8.5.1",
         "npm:react-dom@^19.0.0-rc.1",
         "npm:react-leaflet@^5.0.0-rc.2",
         "npm:react@^19.0.0-rc.1",
