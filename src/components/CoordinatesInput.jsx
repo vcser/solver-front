@@ -1,36 +1,22 @@
-import { useState } from "react";
-import {
-    MapContainer,
-    Marker,
-    Popup,
-    TileLayer,
-    useMapEvents,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-
-function MapWithMarker({ position, setPosition }) {
-    useMapEvents({
-        click(e) {
-            setPosition(e.latlng);
-        },
-    });
-
-    return position
-        ? (
-            <Marker position={position}>
-            </Marker>
-        )
-        : null;
-}
+import { useState, useRef } from "react";
+import MapSelector from "./MapSelector";
 
 export default function CoordinatesInput({ onRemove }) {
+    const latRef = useRef();
+    const lngRef = useRef();
     const [isMapOpen, setIsMapOpen] = useState(false);
     const [markerPosition, setMarkerPosition] = useState(null);
 
     const toggleMap = () => {
         setIsMapOpen(!isMapOpen);
-        console.log("Toggle map");
+        // console.log("Toggle map");
     };
+
+    const handleMapClick = (latlng) => {
+        setMarkerPosition([latlng.lat, latlng.lng]);
+        latRef.current.value = parseFloat(latlng.lat).toFixed(6);
+        lngRef.current.value = parseFloat(latlng.lng).toFixed(6);
+    }
 
     return (
         <li>
@@ -47,16 +33,18 @@ export default function CoordinatesInput({ onRemove }) {
                 type="number"
                 name="latitude"
                 placeholder="Latitud"
+                ref={latRef}
+                step={0.000001}
                 required
-                value={markerPosition?.lat}
             />
             <input
                 inputMode="decimal"
                 type="number"
                 name="longitude"
                 placeholder="Longitud"
+                ref={lngRef}
+                step={0.000001}
                 required
-                value={markerPosition?.lng}
             />
             <input
                 type="datetime-local"
@@ -66,24 +54,7 @@ export default function CoordinatesInput({ onRemove }) {
             />
             <button type="button" role="button" onClick={onRemove}>❌</button>
             {isMapOpen && (
-                <div role="navigation">
-                    <MapContainer
-                        center={markerPosition || [51.505, -0.09]}
-                        zoom={13}
-                        scrollWheelZoom={true}
-                        style={{ height: "400px", width: "100%" }}
-                        role="map"
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <MapWithMarker
-                            position={markerPosition}
-                            setPosition={setMarkerPosition}
-                        />
-                    </MapContainer>
-                </div>
+                <MapSelector markerPosition={markerPosition} setMarkerPosition={handleMapClick}/>
             )}
         </li>
     );
