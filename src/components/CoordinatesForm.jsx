@@ -1,12 +1,31 @@
 import CoordinatesContainer from "./CoordinatesContainer";
+import { formInputdata, getPrediction } from "../utils/fetchData";
 
 export default function CoordinatesForm() {
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
+        const formDataArray = Array.from(formData.entries());
+
+        const result = [];
+        for (let i = 0; i < formDataArray.length; i += 3) {
+            const lat = formDataArray[i][1];
+            const long = formDataArray[i + 1][1];
+            const timestamp = formDataArray[i + 2][1];
+
+            result.push({
+                lat,
+                long,
+                timestamp,
+            });
         }
+
+        const data = await formInputdata(result);
+
+        const prediction = await getPrediction(data);
+        console.log(prediction);
+
+        return true;
     }
 
     return (
