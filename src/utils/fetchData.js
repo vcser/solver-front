@@ -1,3 +1,19 @@
+import { getResources } from "./fetchResources";
+
+function formatTimestamp(date) {
+    if (!(date instanceof Date)) {
+        throw new Error("La entrada debe ser un objeto Date válido.");
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 async function fetchMeteorology(coords) {
     const lats = coords.map((coord) => coord.lat).join(",");
     const longs = coords.map((coord) => coord.long).join(",");
@@ -39,19 +55,18 @@ async function fetchGeography(coords) {
 }
 
 async function fetchResources(coords) {
-    return [{
-        id: 811,
-        type: "Interfaz",
-        hours: 2.8,
-        lat: -72.69277777777778,
-        long: -37.522777777777776,
-        state: 1,
-        assigned: -1,
-        etas: ["2021-01-18T15:27"],
-    }];
+    let resources = await getResources();
+    const tmpTimestamp = formatTimestamp(new Date());
+    resources = resources.map((resource) => ({
+        etas: Array(coords.length).fill(tmpTimestamp),
+        ...resource,
+    }));
+    console.log(resources);
+    return resources;
 }
 
-const matrizEficiencia = `
+const matrizEficiencia =
+    `176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
@@ -81,9 +96,7 @@ const matrizEficiencia = `
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
 176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
-176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
-176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667
-`;
+176.6666667 176.6666667 176.6666667 530 441.6666667 441.6666667 441.6666667`;
 
 async function formInputdata(coords) {
     const meteorology = await fetchMeteorology(coords);
@@ -93,24 +106,25 @@ async function formInputdata(coords) {
     // console.log(meteorology);
     // console.log(geography);
 
-    const currentTime = new Date().toISOString().slice(0, 16);
+    const currentTime = formatTimestamp(new Date());
     return `${currentTime}
 ${coords.length}
 ${
         coords.map((coord, idx) =>
-            `${coord.lat} ${coord.long} ${meteorology[idx].humidity} ${
-                meteorology[idx].velocity
-            } ${meteorology[idx].direction} ${meteorology[idx].temperature} ${
-                geography[idx].slope
-            } ${geography[idx].vplFactor} ${coord.timestamp} ${
-                geography[idx].valorXRodal
-            } ${geography[idx].fuelModel} ${geography[idx].distance} 0`
+            `${coord.lat} ${coord.long}
+${meteorology[idx].humidity} ${meteorology[idx].velocity} ${
+                meteorology[idx].direction
+            } ${meteorology[idx].temperature} ${geography[idx].slope} ${
+                geography[idx].vplFactor
+            } ${coord.timestamp} ${geography[idx].valorXRodal} ${
+                geography[idx].fuelModel
+            } ${geography[idx].distance} 0`
         ).join("\n")
     }
 ${resources.length}
 ${
         resources.map((resource) =>
-            `${resource.id} ${resource.type} ${resource.hours} ${resource.lat} ${resource.long} ${resource.state} ${resource.assigned} 1 ${
+            `${resource.id} ${resource.type} ${resource.hours} ${resource.lat} ${resource.long} ${resource.state ? "1" : "0"} ${resource.assigned} 1 ${
                 resource.etas.join(" ").trim()
             }`
         ).join("\n")
@@ -129,8 +143,7 @@ ${
                 "\n",
             )
         ).join("\n")
-    }
-`;
+    }`;
 }
 
 async function getPrediction(input) {
@@ -142,4 +155,10 @@ async function getPrediction(input) {
     return json;
 }
 
-export { fetchGeography, fetchMeteorology, fetchResources, formInputdata, getPrediction };
+export {
+    fetchGeography,
+    fetchMeteorology,
+    fetchResources,
+    formInputdata,
+    getPrediction,
+};

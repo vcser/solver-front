@@ -1,7 +1,7 @@
 import CoordinatesContainer from "./CoordinatesContainer";
 import { formInputdata, getPrediction } from "../utils/fetchData";
 
-export default function CoordinatesForm() {
+export default function CoordinatesForm({ setResults }) {
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -21,9 +21,12 @@ export default function CoordinatesForm() {
         }
 
         const data = await formInputdata(result);
+        console.log(data)
 
         const prediction = await getPrediction(data);
         console.log(prediction);
+
+        setResults(prediction);
 
         return true;
     }

@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import {
     act,
     cleanup,
@@ -54,35 +54,23 @@ describe("CoordinatesInput", () => {
         render(<CoordinatesInput />);
 
         // Abre el mapa
-        const mapToggleButton = screen.getByTestId("map-picker");
-        fireEvent.click(mapToggleButton);
+        fireEvent.click(screen.getByTestId("map-picker"));
 
-        // Verifica que el mapa esté visible
-        const mapElement = screen.getByRole("navigation");
-        expect(mapElement).toBeInTheDocument();
+        // Encuentra el mapa y los inputs
+        const map = screen.getByRole("navigation");
+        const latitudeInput = screen.getAllByRole("spinbutton")[0];
+        const longitudeInput = screen.getAllByRole("spinbutton")[1];
 
-        // Encuentra los inputs de latitud y longitud
-        const latitudeInput = screen.getByPlaceholderText("Latitud");
-        const longitudeInput = screen.getByPlaceholderText("Longitud");
-
-        // Simula un clic en el mapa en una posición específica
-        const mapContainer = mapElement.querySelector(".leaflet-container");
-        expect(mapContainer).not.toBeNull();
-
-        // Coordenadas simuladas
-        const simulatedLatLng = { lat: 40.7128, lng: -74.006 };
-
-        // Simula el evento de clic usando `act` para asegurar que React actualiza el estado
-        await act(() => {
-            fireEvent.click(mapContainer, {
-                bubbles: true,
-                clientX: simulatedLatLng.lat,
-                clientY: simulatedLatLng.lng,
+        // Mock del evento de clic en el mapa
+        await act(async () => {
+            // Simula un clic en el mapa con coordenadas ficticias
+            fireEvent.click(map, {
+                latlng: { lat: 10.123, lng: 20.456 },
             });
         });
 
-        // Verifica que los inputs tengan los valores esperados
-        expect(latitudeInput.value).not.toBe("");
-        expect(longitudeInput.value).not.toBe("");
+        // Asegúrate de que los inputs se hayan actualizado correctamente
+        expect(latitudeInput.value).toBe("10.123");
+        expect(longitudeInput.value).toBe("20.456");
     });
 });
