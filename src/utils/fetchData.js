@@ -37,7 +37,7 @@ async function fetchGeography(coords) {
     const data = await Promise.all(
         coords.map(async (coord) => {
             const response = await fetch(
-                `http://chome.inf.udec.cl:8000/geography?lat=${coord.lat}&lon=${coord.long}`,
+                `https://firesolverproxy.vicentecser.workers.dev/geography?lat=${coord.lat}&lon=${coord.long}`,
             );
             const json = await response.json();
 
@@ -147,7 +147,7 @@ ${
 }
 
 async function getPrediction(input) {
-    const response = await fetch("http://chome.inf.udec.cl:8000/predict", {
+    const response = await fetch("https://firesolverproxy.vicentecser.workers.dev/predict", {
         method: "POST",
         body: input,
     });
