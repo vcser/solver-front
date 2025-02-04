@@ -3,11 +3,11 @@ import CoordinatesForm from "./components/CoordinatesForm";
 import ResultsSection from "./components/ResultsSection";
 
 export default function App() {
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState(null);
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen py-4 bg-slate-100">
       <CoordinatesForm setResults={setResults} />
-      <ResultsSection results={results} />
+      {results ? <ResultsSection results={results} /> : ""}
     </div>
   );
 }

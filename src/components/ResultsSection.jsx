@@ -1,40 +1,27 @@
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "./ui/accordion.jsx";
+import ResultsTable from "./ResultsTable.jsx";
+
 export default function ResultsSection({ results }) {
     return (
-        <section>
-            {results.metrics
-                ? (
-                    <div>
-                        <table>
-                            <tr>
-                                <th>Metrica</th>
-                                <th>Valor</th>
-                            </tr>
-                            {Object.entries(results.metrics).map((
-                                [key, value],
-                            ) => (
-                                <tr key={key}>
-                                    <td>{key}</td>
-                                    <td>{value}</td>
-                                </tr>
-                            ))}
-                        </table>
-                        <table>
-                            <tr>
-                                <th>Id</th>
-                                <th>Metros de linea</th>
-                                <th>Costo aproximado</th>
-                            </tr>
-                            {results.resources.map((resource) => (
-                                <tr key={resource.id}>
-                                    <td>{resource.id}</td>
-                                    <td>{resource.metroLinea}</td>
-                                    <td>{resource.costoRecurso}</td>
-                                </tr>
-                            ))}
-                        </table>
-                    </div>
-                )
-                : "Aun no hay resultados"}
-        </section>
+        <>
+            <h2 className="mt-8 text-2xl font-bold text-center">
+                Resultados
+            </h2>
+            <Accordion type="single" collapsible className="w-full px-8">
+                {results.fires.map((fire) => (
+                    <AccordionItem value={String(fire.id)} key={fire.id}>
+                        <AccordionTrigger className="bg-slate-200">Incendio {fire.id}</AccordionTrigger>
+                        <AccordionContent className="">
+                            <ResultsTable fire={fire} />
+                        </AccordionContent>
+                    </AccordionItem>
+                ))}
+            </Accordion>
+        </>
     );
 }

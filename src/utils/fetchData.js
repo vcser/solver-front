@@ -107,7 +107,7 @@ async function formInputdata(coords) {
     // console.log(geography);
 
     const currentTime = formatTimestamp(new Date());
-    return `${currentTime}
+    return [`${currentTime}
 ${coords.length}
 ${
         coords.map((coord, idx) =>
@@ -143,7 +143,7 @@ ${
                 "\n",
             )
         ).join("\n")
-    }`;
+    }`, resources];
 }
 
 async function getPrediction(input) {
@@ -152,6 +152,7 @@ async function getPrediction(input) {
         body: input,
     });
     const json = await response.json();
+    console.log(json);
     return json;
 }
 
