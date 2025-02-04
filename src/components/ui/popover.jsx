@@ -26,7 +26,7 @@ const PopoverContent = React.forwardRef((
     >
       {children}
       <PopoverPrimitive.Close
-        className="absolute z-1000 cursor-pointer right-[5px] top-[5px] bg-slate-100 inline-flex size-[25px] items-center justify-center rounded-md text-violet11 outline-none hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7"
+        className="absolute cursor-pointer right-[5px] top-[5px] bg-slate-100 inline-flex size-[25px] items-center justify-center rounded-md text-violet11 outline-none hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7"
         aria-label="Close"
       >
         X
