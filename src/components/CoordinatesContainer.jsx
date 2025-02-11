@@ -13,7 +13,7 @@ export default function CoordinatesContainer() {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mb-5">
             <ul className="flex flex-col items-center gap-1">
                 {inputs.map((input) => (
                     <CoordinatesInput
@@ -24,7 +24,7 @@ export default function CoordinatesContainer() {
                 ))}
             </ul>
             <button
-                className="my-4 w-20 h-8 rounded-md hover:cursor-pointer bg-slate-100 drop-shadow-xs hover:bg-slate-200 active:bg-slate-300 transition-all duration-300"
+                className="btn btn-soft"
                 type="button"
                 role="button"
                 onClick={addInput}

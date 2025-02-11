@@ -23,7 +23,7 @@ function MapWithMarker({ position, setPosition }) {
 
 export default function MapSelector({ markerPosition, setMarkerPosition }) {
     return (
-        <div role="navigation">
+        <div role="navigation" onClick={(e) => e.stopPropagation()}>
             <MapContainer
                 center={markerPosition || [-37.38997332696627, -72.35919919536599]}
                 zoom={11}

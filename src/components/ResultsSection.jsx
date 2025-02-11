@@ -6,7 +6,7 @@ import {
 } from "./ui/accordion.jsx";
 import ResultsTable from "./ResultsTable.jsx";
 
-export default function ResultsSection({ results }) {
+export default function ResultsSection({ results, selection, setSelection }) {
     return (
         <>
             <h2 className="mt-8 mb-4 text-2xl font-bold text-center">

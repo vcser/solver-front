@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import MapSelector from "./MapSelector";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { DropDown, DropDownContent, DropDownTrigger } from "./ui/dropdown";
 import { useEffect } from "react";
 
 export default function CoordinatesInput({ id, onRemove }) {
@@ -8,6 +9,7 @@ export default function CoordinatesInput({ id, onRemove }) {
     const lngRef = useRef();
     const dateTimeRef = useRef();
     const [markerPosition, setMarkerPosition] = useState(null);
+    const dropdownRef = useRef(null);
 
     const handleMapClick = (latlng) => {
         setMarkerPosition([latlng.lat, latlng.lng]);
@@ -23,28 +25,24 @@ export default function CoordinatesInput({ id, onRemove }) {
             "-" + String(localDate.getMonth() + 1).padStart(2, "0") +
             "-" + String(localDate.getDate()).padStart(2, "0") +
             "T" + String(localDate.getHours()).padStart(2, "0") +
-            ":" + String(localDate.getMinutes()).padStart(2, "0")
+            ":" + String(localDate.getMinutes()).padStart(2, "0");
 
         dateTimeRef.current.value = localISOString;
     }, []);
 
     return (
-        <li className="group">
+        <li className="group flex">
             <span>{id}:</span>
-            <Popover>
-                <PopoverTrigger
-                    className="h-8 px-2 mx-1 drop-shadow bg-slate-50 hover:bg-slate-200 hover:cursor-pointer active:bg-slate-300 rounded-full"
-                    data-testid="map-picker"
-                >
-                    🌎
-                </PopoverTrigger>
-                <PopoverContent>
+            <DropDown>
+                <DropDownTrigger>🌎</DropDownTrigger>
+                <DropDownContent ref={dropdownRef} data-testid="map-dropdown">
                     <MapSelector
                         markerPosition={markerPosition}
                         setMarkerPosition={handleMapClick}
+                        dropdownRef={dropdownRef}
                     />
-                </PopoverContent>
-            </Popover>
+                </DropDownContent>
+            </DropDown>
             <input
                 inputMode="decimal"
                 type="number"
@@ -52,6 +50,7 @@ export default function CoordinatesInput({ id, onRemove }) {
                 placeholder="Latitud"
                 ref={latRef}
                 step={0.000001}
+                className="input"
                 required
             />
             <input
@@ -61,6 +60,7 @@ export default function CoordinatesInput({ id, onRemove }) {
                 placeholder="Longitud"
                 ref={lngRef}
                 step={0.000001}
+                className="input"
                 required
             />
             <input
@@ -68,10 +68,11 @@ export default function CoordinatesInput({ id, onRemove }) {
                 name="timestamp"
                 role="time"
                 ref={dateTimeRef}
+                className="input"
                 required
             />
             <button
-                className="opacity-0 grayscale-100 hover:grayscale-0 hover:cursor-pointer hover:bg-slate-300 group-hover:opacity-100 transition-opacity duration-300"
+                className="btn"
                 type="button"
                 role="button"
                 onMouseUp={onRemove}

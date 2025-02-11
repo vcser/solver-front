@@ -7,6 +7,7 @@ import {
     screen,
 } from "@testing-library/react";
 import CoordinatesInput from "../../src/components/CoordinatesInput";
+import userEvent from "@testing-library/user-event";
 
 describe("CoordinatesInput", () => {
     afterEach(cleanup);
@@ -53,24 +54,25 @@ describe("CoordinatesInput", () => {
     test.skip("Clicking on the map updates latitude and longitude inputs", async () => {
         render(<CoordinatesInput />);
 
-        // Abre el mapa
-        fireEvent.click(screen.getByTestId("map-picker"));
+    // Abre el mapa
+    fireEvent.click(screen.getByTestId("map-picker"));
 
-        // Encuentra el mapa y los inputs
-        const map = screen.getByRole("navigation");
-        const latitudeInput = screen.getAllByRole("spinbutton")[0];
-        const longitudeInput = screen.getAllByRole("spinbutton")[1];
+    // Encuentra el mapa y los inputs
+    const map = screen.getByRole("navigation");
+    const latitudeInput = screen.getAllByRole("spinbutton")[0];
+    const longitudeInput = screen.getAllByRole("spinbutton")[1];
 
-        // Mock del evento de clic en el mapa
-        await act(async () => {
-            // Simula un clic en el mapa con coordenadas ficticias
-            fireEvent.click(map, {
-                latlng: { lat: 10.123, lng: 20.456 },
-            });
+    // Mock del evento de clic en el mapa
+    await act(async () => {
+        // Simula un clic en el mapa con coordenadas ficticias
+        fireEvent.click(map, {
+            latlng: { lat: 10.123, lng: 20.456 },
         });
-
-        // Asegúrate de que los inputs se hayan actualizado correctamente
-        expect(latitudeInput.value).toBe("10.123");
-        expect(longitudeInput.value).toBe("20.456");
     });
+
+    // Asegúrate de que los inputs se hayan actualizado correctamente
+    expect(latitudeInput.value).toBe("10.123");
+    expect(longitudeInput.value).toBe("20.456");
+    });
+        
 });

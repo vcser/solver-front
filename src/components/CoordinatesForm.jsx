@@ -56,7 +56,7 @@ export default function CoordinatesForm({ setResults }) {
             <CoordinatesContainer />
                     <button
                         disabled={disabled}
-                        className="bg-slate-100 w-48 h-12 rounded drop-shadow disabled:bg-slate-300 disabled:cursor-wait hover:bg-slate-200 hover:cursor-pointer active:bg-slate-300 transition-all duration-200"
+                        className="btn btn-primary btn-lg"
                         type="submit"
                         data-testid="submit"
                     >

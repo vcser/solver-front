@@ -24,6 +24,10 @@ export default function ResultsTable({ fire }) {
                             <td align="right">{parseFloat(value).toFixed(2)}</td>
                         </tr>)
                     })}
+                    <tr>
+                        <td align="left">Total recursos</td>
+                        <td align="right">{fire.resources.length}</td>
+                    </tr>
                 </tbody>
             </table>
             <table>
