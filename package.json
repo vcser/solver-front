@@ -1,7 +1,7 @@
 {
   "name": "recomendador-despachos",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,6 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
     "daisyui": "^5.0.0-beta.6",
-    "firebase": "^11.2.0",
     "leaflet": "^1.9.4",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",
