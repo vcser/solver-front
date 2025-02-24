@@ -28,15 +28,7 @@ export default function CoordinatesForm({ setResults }) {
         }
 
         const prediction = await fetchRestults(input);
-
-        prediction.fires.forEach((fire) => {
-            fire.resources = fire.resources.map((resource) => ({
-                name: resources.find((res) =>
-                    res.id == parseInt(resource.id)
-                ).name,
-                ...resource,
-            }));
-        });
+        console.log(prediction);
 
         setResults(prediction);
 
@@ -61,7 +53,7 @@ export default function CoordinatesForm({ setResults }) {
                 {disabled
                     ? (
                         <div className="flex flex-row justify-center items-center">
-                            Analizando <Spinner />
+                            <Spinner /> Analizando
                         </div>
                     )
                     : "Analizar 🔍"}

@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "npm:@eslint/js@^9.19.0": "9.19.0",
+    "npm:@heroicons/react@^2.2.0": "2.2.0_react@19.0.0",
     "npm:@tailwindcss/vite@4": "4.0.0_vite@6.0.11_lightningcss@1.29.1",
     "npm:@testing-library/dom@^10.4.0": "10.4.0",
     "npm:@testing-library/jest-dom@^6.6.3": "6.6.3",
@@ -313,6 +314,12 @@
       "dependencies": [
         "@eslint/core",
         "levn"
+      ]
+    },
+    "@heroicons/react@2.2.0_react@19.0.0": {
+      "integrity": "sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==",
+      "dependencies": [
+        "react"
       ]
     },
     "@humanfs/core@0.19.1": {
@@ -2521,6 +2528,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@eslint/js@^9.19.0",
+        "npm:@heroicons/react@^2.2.0",
         "npm:@tailwindcss/vite@4",
         "npm:@testing-library/jest-dom@^6.6.3",
         "npm:@testing-library/react@^16.2.0",

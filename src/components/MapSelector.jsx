@@ -1,9 +1,4 @@
-import {
-    MapContainer,
-    Marker,
-    TileLayer,
-    useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 function MapWithMarker({ position, setPosition }) {
@@ -13,19 +8,15 @@ function MapWithMarker({ position, setPosition }) {
         },
     });
 
-    return position
-        ? (
-            <Marker position={position}>
-            </Marker>
-        )
-        : null;
+    return position ? <Marker position={position} /> : null;
 }
 
 export default function MapSelector({ markerPosition, setMarkerPosition }) {
     return (
         <div role="navigation" onClick={(e) => e.stopPropagation()}>
             <MapContainer
-                center={markerPosition || [-37.38997332696627, -72.35919919536599]}
+                center={markerPosition ||
+                    [-37.38997332696627, -72.35919919536599]}
                 zoom={11}
                 scrollWheelZoom={true}
                 style={{ height: "400px", width: "100%" }}

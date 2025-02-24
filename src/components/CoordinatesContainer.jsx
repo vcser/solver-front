@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CoordinatesInput from "./CoordinatesInput";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function CoordinatesContainer() {
     const [inputs, setInputs] = useState([{ id: 0 }]);
@@ -29,7 +30,7 @@ export default function CoordinatesContainer() {
                 role="button"
                 onClick={addInput}
             >
-                <span>➕</span>
+                Agregar foco
             </button>
         </div>
     );

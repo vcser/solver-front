@@ -1,15 +1,13 @@
 import { useRef, useState } from "react";
-import MapSelector from "./MapSelector";
-// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { DropDown, DropDownContent, DropDownTrigger } from "./ui/dropdown";
 import { useEffect } from "react";
+import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import MapPopover from "./mapPopover.jsx";
 
 export default function CoordinatesInput({ id, onRemove }) {
     const latRef = useRef();
     const lngRef = useRef();
     const dateTimeRef = useRef();
     const [markerPosition, setMarkerPosition] = useState(null);
-    const dropdownRef = useRef(null);
 
     const handleMapClick = (latlng) => {
         setMarkerPosition([latlng.lat, latlng.lng]);
@@ -31,18 +29,12 @@ export default function CoordinatesInput({ id, onRemove }) {
     }, []);
 
     return (
-        <li className="group flex">
+        <li className="group flex align-middle items-center gap-0.5">
             <span>{id}:</span>
-            <DropDown>
-                <DropDownTrigger>🌎</DropDownTrigger>
-                <DropDownContent ref={dropdownRef} data-testid="map-dropdown">
-                    <MapSelector
-                        markerPosition={markerPosition}
-                        setMarkerPosition={handleMapClick}
-                        dropdownRef={dropdownRef}
-                    />
-                </DropDownContent>
-            </DropDown>
+            <MapPopover
+                markerPosition={markerPosition}
+                setMarkerPosition={handleMapClick}
+            />
             <input
                 inputMode="decimal"
                 type="number"
@@ -77,7 +69,7 @@ export default function CoordinatesInput({ id, onRemove }) {
                 role="button"
                 onMouseUp={onRemove}
             >
-                ❌
+                <XMarkIcon className="size-4" />
             </button>
         </li>
     );

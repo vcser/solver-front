@@ -12,6 +12,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.0",
     "daisyui": "^5.0.0-beta.6",
     "leaflet": "^1.9.4",

@@ -1,3 +1,5 @@
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 function formatTimestamp(date) {
     if (!(date instanceof Date)) {
         throw new Error("La entrada debe ser un objeto Date válido.");
@@ -29,6 +31,7 @@ async function fetchRestults(coords) {
         {
             method: "POST",
             headers: {
+                "X-API-Key": API_KEY,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),

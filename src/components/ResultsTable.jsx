@@ -1,9 +1,9 @@
 export default function ResultsTable({ fire }) {
     return (
-        <div className="flex flex-row items-center justify-center gap-12">
+        <div className="flex flex-row items-center gap-4 overflow-x-scroll">
             <table>
                 <thead>
-                    <tr className="*:px-20 bg-slate-200">
+                    <tr className="*:px-16 bg-slate-200">
                         <th>Metrica</th>
                         <th>Valor</th>
                     </tr>
@@ -33,9 +33,9 @@ export default function ResultsTable({ fire }) {
             <table>
                 <thead className="bg-slate-200">
                     <tr className="*:px-4">
-                        <th>Nombre</th>
+                        <th>Nombre recurso</th>
                         <th>Metros de linea</th>
-                        <th>Costo aproximado</th>
+                        {/* <th>Costo aproximado</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -44,13 +44,13 @@ export default function ResultsTable({ fire }) {
                             align="center"
                             key={resource.id}
                         >
-                            <td>{resource.name}</td>
+                            <td>{resource.id}</td>
                             <td>
                                 {parseFloat(resource.line).toFixed(
                                     1,
                                 )}
                             </td>
-                            <td>{resource.cost}</td>
+                            {/* <td>{resource.cost}</td> */}
                         </tr>
                     ))}
                 </tbody>
