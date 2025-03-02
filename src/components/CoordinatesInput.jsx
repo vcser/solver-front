@@ -1,11 +1,15 @@
 import { useRef, useState } from "react";
 import { useEffect } from "react";
-import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import MapPopover from "./mapPopover.jsx";
+import { MapPinIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { decimalToDMS, dmsToDecimal } from "../utils/coordinates.js";
 
 export default function CoordinatesInput({ id, onRemove }) {
     const latRef = useRef();
     const lngRef = useRef();
+    const degreesRef = useRef();
+    const minutesRef = useRef();
+    const secondsRef = useRef();
     const dateTimeRef = useRef();
     const [markerPosition, setMarkerPosition] = useState(null);
 

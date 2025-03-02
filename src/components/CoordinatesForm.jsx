@@ -3,6 +3,7 @@ import { fetchRestults } from "../utils/fetchResult";
 import { useCallback, useState } from "react";
 import Spinner from "./ui/spinner";
 
+
 export default function CoordinatesForm({ setResults }) {
     const [disabled, setDisabled] = useState(false);
 
