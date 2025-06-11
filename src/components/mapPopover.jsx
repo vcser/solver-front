@@ -55,12 +55,12 @@ export default function MapPopover({ markerPosition, setMarkerPosition }) {
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="btn btn-primary"
+          className="btn bg-green-500"
         >
           Abrir Mapa
         </button>
         {open && (
-          <div className="absolute top-full mt-2 z-50 bg-base-200 p-2 shadow-xl rounded-box w-80 pointer-events-auto">
+          <div className="absolute top-full right-0 md:left-0 mt-2 z-50 bg-base-200 p-2 shadow-xl rounded-box w-80 pointer-events-auto">
             <div className="w-full h-full">
               <MapContainer
                 center={markerPosition || [-37.47, -72.35]} // Los Ángeles, Chile

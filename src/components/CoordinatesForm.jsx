@@ -1,8 +1,8 @@
 import CoordinatesContainer from "./CoordinatesContainer";
 import { fetchRestults } from "../utils/fetchResult";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import Spinner from "./ui/spinner";
-
+import { dmsToDecimal } from "../utils/coordinates";
 
 export default function CoordinatesForm({ setResults }) {
     const [disabled, setDisabled] = useState(false);
@@ -10,55 +10,65 @@ export default function CoordinatesForm({ setResults }) {
     async function handleSubmit(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        const formDataArray = Array.from(formData.entries());
 
         setDisabled(true);
         setResults(null);
 
         const input = [];
-        for (let i = 0; i < formDataArray.length; i += 3) {
-            const lat = formDataArray[i][1];
-            const lon = formDataArray[i + 1][1];
-            const timestamp = formDataArray[i + 2][1];
+        const count = document.querySelectorAll("[name^='degreesLat-']").length;
 
-            input.push({
-                lat,
-                lon,
-                timestamp,
-            });
+        for (let i = 0; i < count; i++) {
+            const degreesLat = parseInt(formData.get(`degreesLat-${i}`));
+            const minutesLat = parseInt(formData.get(`minutesLat-${i}`));
+            const secondsLat = parseFloat(formData.get(`secondsLat-${i}`));
+
+            const degreesLng = parseInt(formData.get(`degreesLng-${i}`));
+            const minutesLng = parseInt(formData.get(`minutesLng-${i}`));
+            const secondsLng = parseFloat(formData.get(`secondsLng-${i}`));
+
+            const timestamp = formData.get(`timestamp-${i}`);
+
+            const lat = dmsToDecimal(degreesLat, minutesLat, secondsLat);
+            const lon = dmsToDecimal(degreesLng, minutesLng, secondsLng);
+
+            input.push({ lat, lon, timestamp });
         }
+
+        console.log(input)
 
         const prediction = await fetchRestults(input);
         console.log(prediction);
 
         setResults(prediction);
-
         setDisabled(false);
-
-        return true;
     }
 
     return (
-        <form
-            className="bg-slate-200 flex flex-col items-center p-4 rounded-md"
-            name="coordinates-form"
-            onSubmit={handleSubmit}
-        >
-            <CoordinatesContainer />
-            <button
-                disabled={disabled}
-                className="btn btn-primary btn-lg"
-                type="submit"
-                data-testid="submit"
+        <>
+            <h2 className="mb-4 text-2xl font-bold text-center">
+                Ingresar Focos de Incendio
+            </h2>
+            <form
+                className="flex flex-col items-center bg-slate-200 p-4 rounded-md overflow-visible"
+                name="coordinates-form"
+                onSubmit={handleSubmit}
             >
-                {disabled
-                    ? (
-                        <div className="flex flex-row justify-center items-center">
-                            <Spinner /> Analizando
-                        </div>
-                    )
-                    : "Analizar 🔍"}
-            </button>
-        </form>
+                <CoordinatesContainer />
+                <button
+                    disabled={disabled}
+                    className="btn btn-lg bg-green-500"
+                    type="submit"
+                    data-testid="submit"
+                >
+                    {disabled
+                        ? (
+                            <div className="flex flex-row justify-center items-center">
+                                <Spinner /> Analizando
+                            </div>
+                        )
+                        : "Analizar 🔍"}
+                </button>
+            </form>
+        </>
     );
 }
